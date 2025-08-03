@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
 export default function DashboardPage() {
-  const { session } = useAuthSession();
+  const { user } = useAuthSession();
   const signOut = useSignOut();
 
   return (
@@ -16,7 +16,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">
           Welcome,{" "}
-          {session?.user.user_metadata.full_name || session?.user.email}
+          {user?.user_metadata.full_name || user?.email}
         </h1>
         <div className="space-x-4">
           <Button variant="outline" asChild>
@@ -35,12 +35,12 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Email: {session?.user.email}
+              Email: {user?.email}
             </p>
             <p className="text-sm text-muted-foreground">
               Last Sign In:{" "}
               {new Date(
-                session?.user.last_sign_in_at || ""
+                user?.last_sign_in_at || ""
               ).toLocaleDateString()}
             </p>
           </CardContent>

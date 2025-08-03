@@ -30,7 +30,7 @@ export function useAuthSession() {
   const { user, isLoading } = useAuthStore();
 
   return {
-    session: user ? { user } : null,
+    user,
     isLoading,
   };
 }

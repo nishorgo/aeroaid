@@ -7,6 +7,9 @@ export type Json =
   | Json[]
 
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"]
+export type Donation = Database["public"]["Tables"]["donations"]["Row"]
+export type DonationInsert = Database["public"]["Tables"]["donations"]["Insert"]
+export type DonationUpdate = Database["public"]["Tables"]["donations"]["Update"]
 
 export type Database = {
   // Allows to automatically instanciate createClient with right options

@@ -1,15 +1,14 @@
 // src/lib/providers/auth-provider.tsx
 "use client";
 
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback } from "react";
 import { useAuthStore } from "@/lib/stores/use-auth-store";
-import { createClientSupabaseClient } from "@/lib/supabase/client";
+import { supabase } from "@/lib/supabase/client";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setUser, setLoading, setProfile } = useAuthStore()
   
-  // Memoize the Supabase client to prevent it from being recreated on each render
-  const supabase = useMemo(() => createClientSupabaseClient(), [])
+
   
   // Function to fetch user profile from the API - memoized with useCallback
   const fetchUserProfile = useCallback(async () => {

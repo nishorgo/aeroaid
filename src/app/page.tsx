@@ -1,89 +1,113 @@
-// src/app/page.tsx
-import { Button } from "@/components/ui/button";
-import { CodeIcon, LockIcon, UsersIcon } from "lucide-react";
-import Link from "next/link";
+import React from "react";
+import Image from "next/image";
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className="min-h-screen">
+    <div
+      className="min-h-screen bg-black text-white font-sans overflow-x-hidden"
+      style={{ backgroundColor: "black" }}
+    >
+      {/* Emergency Banner */}
+      <div className="mx-auto w-10/12 max-w-3xl my-5">
+        <div className="bg-white text-black text-center py-1">
+          <p className="font-medium text-sm">
+            FOR EMERGENCY CALL : 01792660291 , 01728144233
+          </p>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="py-20 px-6 md:px-20 space-y-10">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-            Modern Authentication for{" "}
-            <span className="text-primary">Next.js Applications</span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            A secure, fast, and developer-friendly authentication solution built
-            with Next.js, Supabase, and modern web technologies.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button size="lg" asChild>
-              <Link href="/register">Get Started</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/login">Sign In</Link>
-            </Button>
+      <div className="relative px-[10%] min-h-[90vh]">
+        {/* Background Hand Image - Full Size */}
+        <div className="absolute inset-0 w-full h-full z-0">
+          <Image
+            src="/home.png"
+            alt="Hand reaching out"
+            fill
+            priority
+            style={{
+              objectFit: "cover",
+              objectPosition: "right center",
+            }}
+          />
+        </div>
+
+        {/* Content overlay */}
+        <div className="relative z-10 h-full">
+          {/* Project Title - Left Column */}
+          <div className="w-1/2">
+            <div className="flex items-start mb-8">
+              <h1 className="text-5xl font-bold leading-none">
+                PROJECT <br />
+                AEROAID
+              </h1>
+            </div>
+          </div>
+
+          {/* Project Description - Right Column */}
+          <div className="w-1/2 text-right break-words flex items-end ml-auto">
+            <p className="text-[8px]">
+              WELCOME TO OUR BLOOD DONATION NETWORK!
+              <br />
+              JOIN US IN MAKING A LIFE-SAVING DIFFERENCE. OUR COMMUNITY
+              COMPRISES DEDICATED AVIATION STUDENTS AND AIRLINE PROFESSIONALS
+              WHO ARE COMMITTED TO HELPING OTHERS. TOGETHER, WE CAN ENSURE THAT
+              NO ONE IS LEFT IN NEED.
+              <br /> <br />
+              GET INVOLVED, DONATE BLOOD, AND BE A HERO TODAY!
+            </p>
+            
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Features Section */}
-      <section className="py-20 px-6 md:px-20 bg-muted/50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Everything You Need
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="p-6 rounded-lg bg-background shadow-sm"
-              >
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
+      {/* About Section */}
+      <div className="px-[10%] mb-24">
+        <h2 className="text-5xl md:text-6xl font-bold mb-6">ABOUT US</h2>
+        <p className="max-w-4xl text-sm md:text-base">
+          PROJECT AEROAID IS A DHAKA-BASED BLOOD DONATOR'S PORTAL THAT PRIMARILY
+          SERVES THE AVIATION COMMUNITY OF BANGLADESH. THE BLOOD DOORS
+          REGISTERED HERE ARE MOSTLY AVIATION STUDENTS AND PROFESSIONALS WORKING
+          IN VARIOUS TRAINING INSTITUTES AND AIRLINES.
+        </p>
+        <a href="/search">
+          <button className="bg-yellow-400 text-black font-semibold px-6 py-2 mt-4 rounded hover:bg-yellow-500 transition-colors">
+            SEARCH FOR DONOR
+          </button>
+        </a>
+      </div>
+
+      {/* Team Section */}
+      <div className="px-[10%] mb-16">
+        <div className="flex items-start mb-12">
+          <div className="w-4 h-4 bg-red-600 mt-3 mr-2"></div>
+          <h2 className="text-5xl md:text-6xl font-bold">OUR TEAM</h2>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
+          {[...Array(8)].map((_, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-blue-600 overflow-hidden mb-3">
+                <Image
+                  src="/avatar-placeholder.jpg"
+                  alt="Team member"
+                  width={120}
+                  height={120}
+                  className="w-full h-full object-cover"
+                />
               </div>
-            ))}
-          </div>
+              <p className="text-center">PERSON 1</p>
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6 md:px-20">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl font-bold">Ready to Get Started?</h2>
-          <p className="text-xl text-muted-foreground">
-            Join thousands of developers building secure applications
-          </p>
-          <Button size="lg" asChild>
-            <Link href="/register">Create Your Account</Link>
-          </Button>
-        </div>
-      </section>
+      {/* Footer */}
+      <div className="text-center py-6 mt-auto">
+        <p>POWERED BY YOUTH NOTION</p>
+      </div>
     </div>
   );
-}
+};
 
-const features = [
-  {
-    title: "Secure Authentication",
-    description:
-      "Enterprise-grade security with Supabase Auth, including JWT tokens and secure password hashing.",
-    icon: LockIcon,
-  },
-  {
-    title: "Modern Stack",
-    description:
-      "Built with Next.js 15, TypeScript, and Tailwind CSS for a modern development experience.",
-    icon: CodeIcon,
-  },
-  {
-    title: "User Management",
-    description:
-      "Complete user management system with profile updates, password reset, and more.",
-    icon: UsersIcon,
-  },
-];
+export default Home;
