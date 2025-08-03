@@ -2,6 +2,7 @@
 "use client";
 
 import { useProtectedRoute } from "@/hooks/use-protected-route";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 
 export default function ProtectedLayout({
@@ -10,6 +11,7 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const { isLoading } = useProtectedRoute();
+  const queryClient = new QueryClient();
 
   if (isLoading) {
     return (
@@ -19,5 +21,9 @@ export default function ProtectedLayout({
     );
   }
 
-  return <>{children}</>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <div className="min-h-screen bg-white pt-16">{children}</div>
+    </QueryClientProvider>
+  );
 }

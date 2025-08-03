@@ -27,10 +27,11 @@ export function useSignOut() {
 }
 
 export function useAuthSession() {
-  const { user, isLoading } = useAuthStore();
+  const { user, isLoading, profile } = useAuthStore();
 
   return {
     user,
     isLoading,
+    profile,
   };
 }
