@@ -1,22 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../client";
 import imageCompression from "browser-image-compression";
+import { useAuthStore } from "@/lib/stores/use-auth-store";
+import { Profile } from "@/types/database.types";
 
-export type ProfileData = {
-  id?: string;
-  full_name?: string;
-  blood_group?: string;
-  date_of_birth?: Date;
-  organization?: string;
-  area_name: string;
-  contact: string | null;
-  bio?: string;
-  avatar_url?: string;
-  is_available: boolean;
-}
 
 export const useGetProfile = (id: string) => {
-  return useQuery<ProfileData>({
+  return useQuery<Profile, Error, Profile>({
     queryKey: ["profile", id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -29,9 +19,14 @@ export const useGetProfile = (id: string) => {
       }
       return data;
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
-    staleTime: 60 * 1000,
-    enabled: !!id,
+    onSuccess: (data: Profile | null) => {
+      // Update the auth store with the profile data
+      if (data) {
+        useAuthStore.getState().setProfile(data);
+      }
+    }
   });
 };
 
@@ -44,7 +39,7 @@ export const useUpdateProfile = () => {
       profile,
     }: {
       userId: string;
-      profile: ProfileData;
+      profile: Profile;
     }) => {
       if (profile.contact === "") {
         profile.contact = null;
