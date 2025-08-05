@@ -87,7 +87,7 @@ interface DonorProfile {
 }
 
 interface DonationItem {
-  id: string;
+  id: number;
   patient_name: string;
   hospital: string;
   location: string;

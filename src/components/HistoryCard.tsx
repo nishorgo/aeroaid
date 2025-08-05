@@ -44,7 +44,9 @@ const HistoryCard = ({
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600 font-semibold">DATE:</span>
-            <span className="text-white font-semibold bg-green-500 px-2 rounded-lg">{date}</span>
+            <span className="text-white font-semibold bg-green-500 px-2 rounded-lg">
+              {new Date(date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
+            </span>
           </div>
         </div>
         {showButton && (
