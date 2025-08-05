@@ -6,12 +6,17 @@ import { useAuthStore } from "@/lib/stores/use-auth-store";
 import { supabase } from "@/lib/supabase/client";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { setUser, setLoading, setProfile } = useAuthStore()
-  
-
+  const { setUser, setLoading, setProfile, profile } = useAuthStore()
   
   // Function to fetch user profile from the API - memoized with useCallback
+  // Only fetches if profile doesn't exist in the store
   const fetchUserProfile = useCallback(async () => {
+    // Skip fetching if profile already exists in the store
+    if (profile) {
+      console.log("Profile already exists in store, skipping fetch")
+      return
+    }
+    
     try {
       console.log("Fetching profile from API")
       const response = await fetch('/api/profile')
@@ -29,7 +34,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error("Error fetching user profile:", error)
     }
-  }, [setProfile])
+  }, [setProfile, profile])
 
   useEffect(() => {
 
