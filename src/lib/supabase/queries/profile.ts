@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../client";
 import imageCompression from "browser-image-compression";
-import { useAuthStore } from "@/lib/stores/use-auth-store";
 import { Profile } from "@/types/database.types";
 
 
@@ -21,12 +20,6 @@ export const useGetProfile = (id: string) => {
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
-    onSuccess: (data: Profile | null) => {
-      // Update the auth store with the profile data
-      if (data) {
-        useAuthStore.getState().setProfile(data);
-      }
-    }
   });
 };
 

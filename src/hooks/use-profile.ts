@@ -1,6 +1,5 @@
 // src/hooks/use-profile.ts
 import { useState, useEffect } from "react";
-import { useToast } from "./use-toast";
 import { ProfileFormData } from "@/lib/validations/profile";
 import { User } from "@supabase/supabase-js";
 
@@ -18,7 +17,6 @@ interface UseProfile {
 }
 
 export function useProfile(): UseProfile {
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
 
@@ -37,18 +35,13 @@ export function useProfile(): UseProfile {
           avatar_url: user.user_metadata.avatar_url || null,
         });
       } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description:
-            error instanceof Error ? error.message : "Failed to fetch profile",
-        });
+        console.log(error)
         setProfile(null);
       }
     }
 
     fetchProfile();
-  }, [toast]);
+  }, []);
 
   const updateProfile = async (data: ProfileFormData) => {
     try {
@@ -63,17 +56,9 @@ export function useProfile(): UseProfile {
 
       if (!response.ok) throw new Error("Failed to update profile");
 
-      toast({
-        title: "Success",
-        description: "Profile updated successfully",
-      });
+      console.log("Profile updated successfully");
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to update profile",
-      });
+      console.log(error)
     } finally {
       setIsLoading(false);
     }

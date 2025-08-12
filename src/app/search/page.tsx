@@ -8,7 +8,8 @@ import HighlightedText from '@/components/HighlightedText';
 import SelectField from '@/components/SelectField';
 import { areas, bloodGroups } from '@/data/dropdown';
 import AreaDropdown from '@/components/AreaDropdown';
-import { ProfileData, useGetProfileByAreaAndBloodGroup } from '@/lib/supabase/queries/profile';
+import { useGetProfileByAreaAndBloodGroup } from '@/lib/supabase/queries/profile';
+import { Profile } from '@/types/database.types';
 import { useAuthSession } from '@/lib/utils/auth-utils';
 import { useCreateDonation } from '@/lib/supabase/queries/donations';
     
@@ -47,7 +48,7 @@ export default function Search() {
     router.push(`/search?${newParams.toString()}`);
   };
 
-  const handleAddToList = (donor: ProfileData) => {
+  const handleAddToList = (donor: Profile) => {
     // TODO: Implement add to list functionality
     if (user?.id) {
       try {
@@ -111,16 +112,16 @@ export default function Search() {
           ) : donors?.length === 0 ? (
             <div>No donors found</div>
           ) : (
-            donors?.map((donor: ProfileData) => (
+            donors?.map((donor: Profile) => (
               <DonorCard
                 key={donor.id}
                 id={donor.id}
-                name={donor.full_name}
-                bloodGroup={donor.blood_group}
+                name={donor.full_name || undefined}
+                bloodGroup={donor.blood_group || undefined}
                 area={donor.area_name}
                 isAvailable={donor.is_available}
-                imageUrl={donor.avatar_url}
-                organization={donor.organization}
+                imageUrl={donor.avatar_url || undefined}
+                organization={donor.organization || undefined}
                 showButton={user ? true : false}
                 onAddToList={() => handleAddToList(donor)}
               />

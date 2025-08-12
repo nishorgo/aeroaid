@@ -1,5 +1,4 @@
 // src/hooks/use-auth-reset.ts
-import { useToast } from "@/hooks/use-toast";
 import { ResetPasswordFormData } from "@/lib/validations/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,7 +10,6 @@ interface UseAuthReset {
 
 export function useAuthReset(): UseAuthReset {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
   const router = useRouter();
 
   async function resetPassword(data: ResetPasswordFormData) {
@@ -28,20 +26,12 @@ export function useAuthReset(): UseAuthReset {
         throw new Error(error.error);
       }
 
-      toast({
-        title: "Success",
-        description: "Check your email for the password reset link.",
-      });
+      console.log("Password reset email sent successfully");
 
       router.push("/login");
       router.refresh();
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description:
-          error instanceof Error ? error.message : "Failed to send reset email",
-      });
+      console.log(error)
     } finally {
       setIsLoading(false);
     }

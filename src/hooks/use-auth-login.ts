@@ -1,6 +1,5 @@
 // src/hooks/use-auth-login.ts
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { useAuthStore } from "@/lib/stores/use-auth-store";
 import { LoginFormData } from "@/lib/validations/auth";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,6 @@ interface UseAuthLogin {
 
 export function useAuthLogin(): UseAuthLogin {
   const { setUser, setLoading, isLoading } = useAuthStore();
-  const { toast } = useToast();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -48,11 +46,6 @@ export function useAuthLogin(): UseAuthLogin {
 
       const { data: responseData } = await response.json();
       setUser(responseData.user);
-
-      toast({
-        title: "Success",
-        description: "You have successfully logged in.",
-      });
 
       router.push("/profile");
     } catch (error) {

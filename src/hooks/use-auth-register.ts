@@ -1,5 +1,4 @@
 // src/hooks/use-auth-register.ts
-import { useToast } from "@/hooks/use-toast"
 import { RegisterFormData } from "@/lib/validations/auth"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -11,7 +10,6 @@ interface UseAuthRegister {
 
 export function useAuthRegister(): UseAuthRegister {
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
   const router = useRouter();
 
   async function register(data: RegisterFormData) {
@@ -36,18 +34,9 @@ export function useAuthRegister(): UseAuthRegister {
         throw new Error(error.error)
       }
 
-      toast({
-        title: "Success",
-        description: "You have successfully registered.",
-      })
-
       router.push("/profile")
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to register",
-      })
+      console.log(error)
     } finally {
       setIsLoading(false)
     }

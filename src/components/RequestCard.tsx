@@ -23,7 +23,6 @@ const RequestCard = ({
   patient_name,
   hospital,
   location,
-  reference,
   date,
   donor,
 }: RequestCardProps) => {

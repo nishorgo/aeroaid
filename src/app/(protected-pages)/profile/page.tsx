@@ -9,10 +9,10 @@ import { areas } from "@/data/dropdown";
 import AreaDropdown from "@/components/AreaDropdown";
 import { useAuthSession } from "@/lib/utils/auth-utils";
 import {
-  useGetProfile,
   useUpdateProfile,
   useUploadAvatar
 } from "@/lib/supabase/queries/profile";
+import { Database } from "@/types/database.types";
 
 export default function Profile() {
   const [formData, setFormData] = useState({
@@ -22,6 +22,11 @@ export default function Profile() {
     bio: "",
     is_available: true,
     avatar_url: "",
+    blood_group: null as Database["public"]["Enums"]["blood_group_type"] | null,
+    date_of_birth: null as string | null,
+    full_name: "",
+    id: "",
+    updated_at: null as string | null,
   });
   const { user, profile: profileData } = useAuthSession();
   const { mutateAsync: updateProfile } = useUpdateProfile();
@@ -37,6 +42,11 @@ export default function Profile() {
         bio: profileData.bio || "",
         avatar_url: profileData.avatar_url || "",
         is_available: profileData.is_available ?? true,
+        blood_group: profileData.blood_group,
+        date_of_birth: profileData.date_of_birth,
+        full_name: profileData.full_name || "",
+        id: profileData.id,
+        updated_at: profileData.updated_at,
       });
       console.log(profileData);
     }
@@ -90,7 +100,7 @@ export default function Profile() {
           <div className="flex items-center space-x-4">
             <ImageUpload
               onImageChange={(file) => setAvatar(file)}
-              currentImage={profileData?.avatar_url}
+              currentImage={profileData?.avatar_url || undefined}
             />
             <div className="flex-1">
               <div className="space-y-1">
