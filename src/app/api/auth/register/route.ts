@@ -8,16 +8,21 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const validatedData = registerSchema.parse(body)
-
+    
     const supabase = await createServerSupabaseClient()
     const { data, error } = await supabase.auth.signUp({
       email: validatedData.email,
       password: validatedData.password,
       options: {
         emailRedirectTo: `${request.nextUrl.origin}/auth/callback`,
+        data: {
+          full_name: validatedData.fullName,
+          date_of_birth: validatedData.dateOfBirth,
+          blood_group: validatedData.bloodGroup
+        }
       },
     })
-
+    
     if (error) throw error
 
     return NextResponse.json({ data })

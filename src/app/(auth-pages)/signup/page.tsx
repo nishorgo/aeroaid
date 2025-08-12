@@ -1,0 +1,36 @@
+// src/app/(auth-pages)/signup/page.tsx
+import { AuthCard } from "@/components/ui/auth-card"
+import { RegisterForm } from "@/components/auth/register-form"
+import { Metadata } from "next"
+import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "Register",
+  description: "Create a new account",
+}
+
+export default function SignupPage() {
+  return (
+    <div className="flex h-screen w-screen flex-col items-center justify-center">
+      <div className="w-full max-w-[320px] mx-auto">
+        <div className="flex justify-center items-center gap-3 mb-2">
+          <img src="logo.png" alt="AeroAid" className="h-16" />
+          <h1 className="text-3xl font-semibold text-center text-green-500">AeroAid</h1>
+        </div>
+        <p className="text-center text-md text-gray-500 mb-6">
+          Already have an account?{'  '}
+          <Link href="/login" className="text-red-500 hover:underline">
+            Sign in
+          </Link>
+        </p>
+
+      </div>
+      <AuthCard
+        title="Create an account"
+        description="Enter your email below to create your account"
+      >
+        <RegisterForm />
+      </AuthCard>
+    </div>
+  )
+}

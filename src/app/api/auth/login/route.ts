@@ -15,7 +15,13 @@ export async function POST(request: NextRequest) {
       password: validatedData.password,
     })
 
-    if (error) throw error
+    // Check if email is confirmed
+    if (error) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 400 }
+      )
+    }
 
     return NextResponse.json({ data })
   } catch (error) {

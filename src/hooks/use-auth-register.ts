@@ -17,10 +17,18 @@ export function useAuthRegister(): UseAuthRegister {
   async function register(data: RegisterFormData) {
     try {
       setIsLoading(true);
+      console.log("data", data)
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+          fullName: data.fullName,
+          dateOfBirth: data.dateOfBirth.toLocaleDateString('en-CA'),
+          bloodGroup: data.bloodGroup,
+        }),
       })
 
       if (!response.ok) {
@@ -33,7 +41,7 @@ export function useAuthRegister(): UseAuthRegister {
         description: "You have successfully registered.",
       })
 
-      router.push("/dashboard")
+      router.push("/profile")
     } catch (error) {
       toast({
         variant: "destructive",

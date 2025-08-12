@@ -1,4 +1,5 @@
 // src/hooks/use-auth-login.ts
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuthStore } from "@/lib/stores/use-auth-store";
 import { LoginFormData } from "@/lib/validations/auth";
@@ -6,17 +7,24 @@ import { useRouter } from "next/navigation";
 
 interface UseAuthLogin {
   isLoading: boolean;
+  error: string | null;
   login: (data: LoginFormData) => Promise<void>;
+  clearError: () => void;
 }
 
 export function useAuthLogin(): UseAuthLogin {
   const { setUser, setLoading, isLoading } = useAuthStore();
   const { toast } = useToast();
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
+  const clearError = () => setError(null);
 
   async function login(data: LoginFormData) {
     try {
       setLoading(true);
+      setError(null); // Clear previous errors
+      
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,8 +32,18 @@ export function useAuthLogin(): UseAuthLogin {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error);
+        const errorData = await response.json();
+        let errorMessage = errorData.error || "Failed to login";
+        
+        // Provide user-friendly message for email not confirmed
+        if (errorMessage.toLowerCase().includes("email not confirmed") || 
+            errorMessage.toLowerCase().includes("email not verified") ||
+            errorMessage.toLowerCase().includes("please confirm your email")) {
+          errorMessage = "Please check your email and click the confirmation link before signing in.";
+        }
+        
+        setError(errorMessage);
+        return;
       }
 
       const { data: responseData } = await response.json();
@@ -36,17 +54,14 @@ export function useAuthLogin(): UseAuthLogin {
         description: "You have successfully logged in.",
       });
 
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to login",
-      });
+      const errorMessage = error instanceof Error ? error.message : "Failed to login";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   }
 
-  return { isLoading, login };
+  return { isLoading, error, login, clearError };
 }

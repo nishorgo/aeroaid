@@ -40,7 +40,7 @@ export function PasswordResetForm() {
           {isLoading ? "Sending reset link..." : "Send reset link"}
         </Button>
         <div className="text-sm text-center space-x-1 text-muted-foreground">
-          <Link href="/auth/login" className="text-primary hover:underline">
+          <Link href="/login" className="text-primary hover:underline">
             Back to login
           </Link>
         </div>

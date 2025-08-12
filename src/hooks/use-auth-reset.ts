@@ -33,7 +33,7 @@ export function useAuthReset(): UseAuthReset {
         description: "Check your email for the password reset link.",
       });
 
-      router.push("/auth/login");
+      router.push("/login");
       router.refresh();
     } catch (error) {
       toast({

@@ -16,6 +16,9 @@ export const registerSchema = z.object({
     .min(8, 'Password must be at least 8 characters')
     .max(100, 'Password is too long'),
   confirmPassword: z.string(),
+  fullName: z.string().min(4, 'Full name must be at least 4 characters'),
+  dateOfBirth: z.coerce.date().catch(new Date()).describe('Please enter a valid date'),
+  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']).describe('Please select a blood group'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
