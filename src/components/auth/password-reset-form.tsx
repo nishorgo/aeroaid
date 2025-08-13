@@ -36,7 +36,7 @@ export function PasswordResetForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="w-full bg-yellow-400 text-gray-700 py-3 rounded font-semibold hover:bg-yellow-500" disabled={isLoading}>
           {isLoading ? "Sending reset link..." : "Send reset link"}
         </Button>
         <div className="text-sm text-center space-x-1 text-muted-foreground">

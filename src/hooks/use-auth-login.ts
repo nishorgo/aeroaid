@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuthStore } from "@/lib/stores/use-auth-store";
 import { LoginFormData } from "@/lib/validations/auth";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
 
 interface UseAuthLogin {
   isLoading: boolean;
@@ -21,17 +22,16 @@ export function useAuthLogin(): UseAuthLogin {
   async function login(data: LoginFormData) {
     try {
       setLoading(true);
-      setError(null); // Clear previous errors
+      setError(null);
       
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+      // Use Supabase client-side auth instead of API route
+      const { data: authData, error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        let errorMessage = errorData.error || "Failed to login";
+      if (error) {
+        let errorMessage = error.message;
         
         // Provide user-friendly message for email not confirmed
         if (errorMessage.toLowerCase().includes("email not confirmed") || 
@@ -44,9 +44,8 @@ export function useAuthLogin(): UseAuthLogin {
         return;
       }
 
-      const { data: responseData } = await response.json();
-      setUser(responseData.user);
-
+      // No need to manually set user or fetch profile
+      // AuthProvider will detect the auth state change and handle everything
       router.push("/profile");
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Failed to login";
