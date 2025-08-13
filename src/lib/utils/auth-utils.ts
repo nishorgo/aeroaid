@@ -12,12 +12,23 @@ export function useSignOut() {
   const signOut = useCallback(async () => {
     try {
       setLoading(true);
-      await supabase.auth.signOut();
+      
+      // Clear session first to immediately update UI state
       clearSession();
+      
+      // Sign out from Supabase
+      await supabase.auth.signOut();
+      
+      // Small delay to ensure auth state has propagated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Navigate to login page
       router.replace("/login");
       router.refresh();
     } catch (error) {
       console.error("Error signing out:", error);
+      // Even if signout fails, redirect to login for security
+      router.replace("/login");
     } finally {
       setLoading(false);
     }

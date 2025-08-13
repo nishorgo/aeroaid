@@ -1,9 +1,9 @@
 // src/app/(protected-pages)/layout.tsx
 "use client";
 
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { useProtectedRoute } from "@/hooks/use-protected-route";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Loader } from "lucide-react";
 
 export default function ProtectedLayout({
   children,
@@ -14,11 +14,7 @@ export default function ProtectedLayout({
   const queryClient = new QueryClient();
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-screen items-center justify-center">
-        <Loader className="animate-spin" />
-      </div>
-    );
+    return <LoadingSpinner />
   }
 
   return (

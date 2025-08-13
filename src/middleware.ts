@@ -42,8 +42,14 @@ export async function middleware(request: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // Protected routes pattern
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/profile");
+  // Protected routes pattern - protect all routes that should require authentication
+  const isProtectedRoute = 
+    request.nextUrl.pathname.startsWith("/profile") ||
+    request.nextUrl.pathname.startsWith("/dashboard") ||
+    request.nextUrl.pathname.startsWith("/history") ||
+    request.nextUrl.pathname.startsWith("/account") ||
+    request.nextUrl.pathname.startsWith("/invitations") ||
+    request.nextUrl.pathname.startsWith("/requests");
   const isAuthRoute = request.nextUrl.pathname.startsWith("/auth");
 
   if (isProtectedRoute && !session) {
